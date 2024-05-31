@@ -75,10 +75,11 @@ export const updatePage = function () {
 
     /** Update my coefficient value */
     loc = '';
-    for (let i = 0; i < localStorage['Coefficient'].length; i++) {
-        loc = loc.concat((i === 0) ? '' : ' ', (localStorage['finnish_fonetics'] == 1) ? ch2faff(localStorage['Coefficient'].toLowerCase().charAt(i)) : ch2nato(localStorage['Coefficient'].toLowerCase().charAt(i)) )
+    let coefficient = (localStorage['Coefficient']) ? localStorage['Coefficient'] : document.getElementById('Coefficient').value;
+    for (let i = 0; i < coefficient.length; i++) {
+        loc = loc.concat((i === 0) ? '' : ' ', (localStorage['finnish_fonetics'] == 1) ? ch2faff(coefficient.toLowerCase().charAt(i)) : ch2nato(coefficient.toLowerCase().charAt(i)) )
     }
-    document.getElementById('my_coefficient').innerHTML = localStorage['Coefficient'].toUpperCase();
+    document.getElementById('my_coefficient').innerHTML = coefficient.toUpperCase();
     document.getElementById('my_coefficient_fonetic').innerHTML = loc;
 
     /** Update my next number value */

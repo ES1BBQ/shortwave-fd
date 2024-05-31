@@ -36,7 +36,7 @@ const checkboxSaveAndRestore = function (e) {
 };
 
 /** Run all the scrips */
-document.querySelectorAll('#edi_header input:not([type="checkbox"])').forEach(x => inputSaveAndRestore(x));
-document.querySelectorAll('#edi_header select').forEach(x => selectSaveAndRestore(x));
+document.querySelectorAll('#settings input:not([type="checkbox"])').forEach(x => inputSaveAndRestore(x));
+document.querySelectorAll('#settings select').forEach(x => selectSaveAndRestore(x));
 document.querySelectorAll('.contest select').forEach(x => selectSaveAndRestore(x));
 document.querySelectorAll('input[type="checkbox"]').forEach(x => checkboxSaveAndRestore(x));
