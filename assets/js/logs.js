@@ -97,20 +97,6 @@ export const updatePage = function () {
     }
 
     let finalEDI = "[REG1TEST;1]\n";
-    finalEDI = finalEDI.concat("TName=ULL kv ", PBand, "\n");
-    finalEDI = finalEDI.concat("TDate=", (localStorage['TDate']) ? localStorage['TDate'].replace(/-/g, '') : '', ";", (localStorage['TDate']) ? localStorage['TDate'].replace(/-/g, '') : '', "\n");
-    finalEDI = finalEDI.concat("PCall=", (localStorage['PCall']) ? localStorage['PCall'].toUpperCase() : '', "\n");
-    finalEDI = finalEDI.concat("PWWLo=", (localStorage['PWWLo']) ? localStorage['PWWLo'].toUpperCase() : '', "\n");
-    finalEDI = finalEDI.concat("PBand=", PBand, "\n");
-    finalEDI = finalEDI.concat("RName=", (localStorage['RName']) ? localStorage['RName'] : '', "\n");
-    finalEDI = finalEDI.concat("RCall=", (localStorage['PCall']) ? localStorage['PCall'].toUpperCase() : '', "\n");
-    finalEDI = finalEDI.concat("RCoun=", (localStorage['RCoun']) ? localStorage['RCoun'] : document.getElementById('RCoun').value, "\n");
-    finalEDI = finalEDI.concat("ROpe1=", (localStorage['PCall']) ? localStorage['PCall'].toUpperCase() : '', "\n");
-    finalEDI = finalEDI.concat("STXEq=", (localStorage['STXEq']) ? localStorage['STXEq'] : '', "\n");
-    finalEDI = finalEDI.concat("SPowe=", (localStorage['SPowe']) ? localStorage['SPowe'] : '', "\n");
-    finalEDI = finalEDI.concat("SRXEq=", (localStorage['SRXEq']) ? localStorage['SRXEq'] : '', "\n");
-    finalEDI = finalEDI.concat("SAnte=", (localStorage['SAnte']) ? localStorage['SAnte'] : '', "\n");
-    finalEDI = finalEDI.concat("SAntH=", (localStorage['SAntH']) ? localStorage['SAntH'] : '', "\n");
     finalEDI = finalEDI.concat("[Remarks]\n", (localStorage['remarks'] && localStorage['remarks'].length > 1) ? localStorage['remarks'] + "\n" : "");
     const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
     finalEDI = finalEDI + "[QSORecords;" + QSORecords.length + "]";
