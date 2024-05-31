@@ -63,13 +63,7 @@ export const refreshLogsTable = function () {
 
 export const updatePage = function () {
 
-    /** Update my locator value */
     let loc = '';
-    for (let i = 0; i < localStorage['PWWLo'].length; i++) {
-        loc = loc.concat((i === 0) ? '' : ' ', (localStorage['finnish_fonetics'] == 1) ? ch2faff(localStorage['PWWLo'].toLowerCase().charAt(i)) : ch2nato(localStorage['PWWLo'].toLowerCase().charAt(i)) )
-    }
-    document.getElementById('my_locator').innerHTML = localStorage['PWWLo'].toUpperCase();
-    document.getElementById('my_locator_fonetic').innerHTML = loc;
 
     /** Update my callsign value */
     loc = '';
@@ -79,31 +73,36 @@ export const updatePage = function () {
     document.getElementById('my_callsign').innerHTML = localStorage['PCall'].toUpperCase();
     document.getElementById('my_callsign_fonetic').innerHTML = loc;
 
+    /** Update my coefficient value */
+    loc = '';
+    for (let i = 0; i < localStorage['Coefficient'].length; i++) {
+        loc = loc.concat((i === 0) ? '' : ' ', (localStorage['finnish_fonetics'] == 1) ? ch2faff(localStorage['Coefficient'].toLowerCase().charAt(i)) : ch2nato(localStorage['Coefficient'].toLowerCase().charAt(i)) )
+    }
+    document.getElementById('my_coefficient').innerHTML = localStorage['Coefficient'].toUpperCase();
+    document.getElementById('my_coefficient_fonetic').innerHTML = loc;
+
+    /** Update my next number value */
+    const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
+    let next_number = QSORecords.length+1;
+    document.getElementById('my_next_number').innerHTML = leadingZeros(next_number,3);
+
     const listQSORecords = function (i) {
         finalEDI = finalEDI.concat("\n" + localStorage['TDate'].substring(2).replace(/-/g, '') + ";" + i[0] + ";" + i[1] + ";" + i[3] + ";" + i[4] + ";;" + i[5] + ";;;" + i[2] + ";0;;N;N;");
     };
 
-    let PBand;
-    if (!localStorage['PSect'] || localStorage['PSect'] === 'SIX-A' || localStorage['PSect'] === 'SIX-B') {
-        PBand = "50 MHz"
-    } else if (localStorage['PSect'] === 'A-144' || localStorage['PSect'] === 'B-144') {
-        PBand = "144 MHz"
-    } else if (localStorage['PSect'] === 'A-432' || localStorage['PSect'] === 'B-432') {
-        PBand = "432 MHz"
-    } else if (localStorage['PSect'] === 'A-1G3') {
-        PBand = "1296 MHz"
-    } else {
-        PBand = 'Checklog'
-    }
-
     let finalEDI = "[REG1TEST;1]\n";
     finalEDI = finalEDI.concat("[Remarks]\n", (localStorage['remarks'] && localStorage['remarks'].length > 1) ? localStorage['remarks'] + "\n" : "");
-    const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
+
     finalEDI = finalEDI + "[QSORecords;" + QSORecords.length + "]";
     QSORecords.forEach(x => listQSORecords(x));
     document.getElementById('finalEDI').value = finalEDI;
     generate_log_cabrillo();
 };
+
+const leadingZeros = function (num,places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+}
 
 /** Method to mark missing input */
 const markInputs = function() {

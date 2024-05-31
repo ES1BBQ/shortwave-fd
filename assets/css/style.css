@@ -304,18 +304,18 @@ input:checked + .slider:before {
     font-size: 1em;
 }
 
-#my_callsign, #my_locator {
+#my_callsign, #my_locator, #my_coefficient, #my_next_number {
     font-size: 2em;
     font-weight: bolder;
     line-height: 1.4em;
     color: var(--main-colorschema-fg);
 }
 
-#my_callsign_fonetic, #my_locator_fonetic {
+#my_callsign_fonetic, #my_locator_fonetic, #my_coefficient_fonetic {
     font-size: 0.7em;
     font-weight: bold;
     background-color: var(--main-colorschema-wrapper-frames);
-    color: var(--main-colorschema-fg-inactive);
+    color: var(--main-colorschema-bg);
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
 }

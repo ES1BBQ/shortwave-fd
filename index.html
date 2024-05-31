@@ -58,6 +58,27 @@
                     <input id="PWWLo" style="text-transform:uppercase" type="text">
                 </div>
                 <div class="centered">
+                    <label for="Coefficient">Kordaja (Piirkond):</label>
+                    <select id="Coefficient">
+                        <option value="HM">Hiiumaa</option>
+                        <option value="HR">Harju</option>
+                        <option value="IV">Ida-Viru</option>
+                        <option value="JG">Jõgeva</option>
+                        <option value="JR">Järva</option>
+                        <option value="LN">Lääne</option>
+                        <option value="LV">Lääne-Viru</option>
+                        <option value="PL">Põlva</option>
+                        <option value="PU">Pärnu</option>
+                        <option value="RP">Rapla</option>
+                        <option value="SR">Saaremaa</option>
+                        <option value="TA">Tartu</option>
+                        <option value="TL">Tallinn</option>
+                        <option value="VC">Valga</option>
+                        <option value="VO">Võru</option>
+                        <option value="VP">Viljandi</option>
+                    </select>
+                </div>
+                <div class="centered">
                     <label for="Address">Aadress:</label>
                     <input id="Address" type="text">
                 </div>
@@ -75,9 +96,13 @@
                             <div id="my_callsign_fonetic"></div>
                         </div>
                         <div class="framed">
-                            Minu Lokaator:
-                            <div id="my_locator"></div>
-                            <div id="my_locator_fonetic"></div>
+                            Järgmine number:
+                            <div id="my_next_number"></div>
+                        </div>
+                        <div class="framed">
+                            Kordaja:
+                            <div id="my_coefficient"></div>
+                            <div id="my_coefficient_fonetic"></div>
                         </div>
                     </div>
                     <div class="padded">
@@ -140,8 +165,8 @@
                 <h2>Logi sisestus</h2>
                 <p>
                     <u>Kõik väljad on vajalikud!</u>
-                    Logi sisestamisel täidetakse tühi aja väli automaatselt UTC ajaga. Sama kehtib välja
-                    valides tab või enter klahvi vajutades. RST väljadele sisestatakse vaikeväärtus 59 kui väljad on
+                    Logi sisestamisel täidetakse tühi aja väli automaatselt lokaalse ajaga. Sama kehtib välja
+                    valides tab või enter klahvi vajutades. RST väljadele sisestatakse vaikeväärtus 599 kui väljad on
                     täitamata tab või enter klahvi vajutades.
                 </p>
                 <p>
@@ -152,70 +177,10 @@
                     <b>Kutsungit</b> ja <b>Lokaatorit</b> <u>pole vaja</u> sisestada suurte tähtedega,
                     seda tehakse automaatselt.
                 </p>
-                <h3>
-                    Režiimid:
-                </h3>
-                <table>
-                    <tr>
-                        <th>Kood</th>
-                        <th>Saatmine</th>
-                        <th>Vastuvõtmine</th>
-                    </tr>
-                    <tr>
-                        <td>0</td>
-                        <td>Teadmata</td>
-                        <td>Teadmata</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>SSB</td>
-                        <td>SSB</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>CW</td>
-                        <td>CW</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>SSB</td>
-                        <td>CW</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>CW</td>
-                        <td>SSB</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>AM</td>
-                        <td>AM</td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>FM</td>
-                        <td>FM</td>
-                    </tr>
-                    <tr>
-                        <td>7</td>
-                        <td>RTTY</td>
-                        <td>RTTY</td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td>SSTV</td>
-                        <td>SSTV</td>
-                    </tr>
-                    <tr>
-                        <td>9</td>
-                        <td>ATV</td>
-                        <td>ATV</td>
-                    </tr>
-                </table>
                 <hr>
                 <h2>Seadistused</h2>
                 <p>
-                    Seadistusjaotuses on vajalik kõikide väljade täitmine v.a märkmed. Osad veebilehitsejad sisaldavad
+                    Seadistusjaotuses on vajalik kõikide väljade täitmine v.a e-post. Osad veebilehitsejad sisaldavad
                     kuupäeva valiku võimalust. Kuupäeva valikuta kasutajatele kuvatakse sobiv kuupäeva formaat.
                     <br><br>
                     <b>Kutsungit</b> ja <b>Lokaatorit</b> <u>pole vaja</u> sisestada suurte tähtedega,
