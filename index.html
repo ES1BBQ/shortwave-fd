@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="et">
+<head>
+
+    <meta charset="utf-8">
+    <title>ES LL Välipäeva logirakendus 2024 - ES1BBQ</title>
+    <meta content="Generate logs for ES Shortwave fieldday" name="description" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <meta content="Generate logs for ES Shortwave fieldday" property="og:title" />
+    <meta content="website" property="og:type" />
+    <meta content="https://es1bbq.gitlab.io/shortwave-fd/" property="og:url" />
+    <meta content="" property="og:image" />
+
+    <meta content='telephone=no' name='format-detection' />
+    <link href="assets/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+<div id="application">
+    <header>
+        <h1>ES LL Välipäeva logirakendus 2024</h1>
+        Infoks: Rakendus salvestab andmed ainult kohaliku veebilehitsejasse.
+    </header>
+
+
+    <div class="tabs-container">
+        <ul class="tabs-header">
+            <li>Seadistused</li>
+            <li class="default-tab">Logi</li>
+            <li>Tulem</li>
+            <li>Abi</li>
+            <li>Muutelogi</li>
+        </ul>
+        <div class="tabs">
+            <div class="container tab" id="edi_header">
+                <div class="centered">
+                    <label for="TDate">Kuupäev:</label>
+                    <input id="TDate" type="date" placeholder="yyyy-mm-dd">
+                </div>
+                <hr>
+                <div class="centered">
+                    <label for="PCall">Kutsung:</label>
+                    <input id="PCall" style="text-transform:uppercase" type="text">
+                </div>
+                <div class="centered">
+                    <label for="RName">Nimi:</label>
+                    <input id="RName" type="text">
+                </div>
+                <div class="centered">
+                    <label for="PWWLo">Lokaator:
+                        <button id="locate_me">&#8982;</button>
+                    </label>
+                    <input id="PWWLo" style="text-transform:uppercase" type="text">
+                </div>
+                <div class="centered">
+                    <label for="RCoun">Riik:</label>
+                    <select id="RCoun">
+                        <option>Estonia</option>
+                        <option>Finland</option>
+                        <option>Latvia</option>
+                    </select>
+                </div>
+                <hr>
+                <div class="centered">
+                    <label for="STXEq">Saatja (jaama mudel):</label>
+                    <input id="STXEq" type="text">
+                </div>
+                <div class="centered">
+                    <label for="SPowe">Võimsus:</label>
+                    <input id="SPowe" type="number">
+                </div>
+                <div class="centered">
+                    <label for="SRXEq">Vastuvõtja (jaama mudel):</label>
+                    <input id="SRXEq" type="text">
+                </div>
+                <div class="centered">
+                    <label for="SAnte">Antenn:</label>
+                    <input id="SAnte" type="text">
+                </div>
+                <div class="centered">
+                    <label for="SAntH">Antenni kõrgus:</label>
+                    <input id="SAntH" type="number">
+                </div>
+                <hr>
+                <div class="centered">
+                    <label for="remarks">Märkused:</label>
+                    <input id="remarks" type="text">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2024 ES1BBQ | v2024.05.31.001
+</footer>
+
+<script src="assets/js/main.js" type="module"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QW0QGYTSVP"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QW0QGYTSVP');
+</script>
+
+</body>
+</html>
