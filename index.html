@@ -24,7 +24,6 @@
         Infoks: Rakendus salvestab andmed ainult kohaliku veebilehitsejasse.
     </header>
 
-
     <div class="tabs-container">
         <ul class="tabs-header">
             <li>Seadistused</li>
@@ -38,6 +37,10 @@
                 <div class="centered">
                     <label for="TDate">Kuupäev:</label>
                     <input id="TDate" type="date" placeholder="yyyy-mm-dd">
+                </div>
+                <div class="centered">
+                    <label for="Contest">Võistlus:</label>
+                    <input id="Contest" type="text" placeholder="ES-ShortWave-Fieldday">
                 </div>
                 <hr>
                 <div class="centered">
@@ -89,11 +92,185 @@
                     <input id="remarks" type="text">
                 </div>
             </div>
+            <div class="container tab" id="edi_log">
+                <div class="centered">
+                    <div class="my_info">
+                        <div class="framed">
+                            Minu Kutsung:
+                            <div id="my_callsign"></div>
+                            <div id="my_callsign_fonetic"></div>
+                        </div>
+                        <div class="framed">
+                            Minu Lokaator:
+                            <div id="my_locator"></div>
+                            <div id="my_locator_fonetic"></div>
+                        </div>
+                    </div>
+                    <div class="padded">
+                        <button id="log_reset">Puhasta logi</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="centered" id="log_entry">
+                    <div><label>Jrk.</label></div>
+                    <div><label for="log_time">Aeg</label></div>
+                    <div><label for="log_callsign">Kutsung</label></div>
+                    <div><label for="log_loc">QTH</label></div>
+                    <div><label for="log_mode">Režiim</label></div>
+                    <div><label for="log_tx_rst">Saadetud</label></div>
+                    <div><label for="log_rx_rst">Saadud</label></div>
+                    <div></div>
+                    <div><input id="log_edit" type="hidden" value="0"></div>
+                    <div><input class="short" id="log_time" type="text"></div>
+                    <div><input autofocus class="short" id="log_callsign" maxlength="10"
+                                style="text-transform:uppercase" type="text"></div>
+                    <div><input class="short" id="log_loc" maxlength="6" style="text-transform:uppercase" type="text">
+                    </div>
+                    <div>
+                        <select id="log_mode" class="short">
+                            <option value="0">Teadmata</option>
+                            <option value="1">SSB</option>
+                            <option value="2">CW</option>
+                            <option value="5">AM</option>
+                            <option value="6" selected>FM</option>
+                            <option value="7">RTTY</option>
+                            <option value="8">SSTV</option>
+                        </select></div>
+                    <div><input class="short" id="log_tx_rst" maxlength="3" placeholder="59" type="text" value="59">
+                    </div>
+                    <div><input class="short" id="log_rx_rst" maxlength="3" placeholder="59" type="text" value="59">
+                    </div>
+                    <div>
+                        <button class="short" id="log_write">&raquo;</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="centered" id="log"></div>
+            </div>
+            <div class="container tab" id="final_logs">
+                <label for="finalEDI" style="display:none">EDI</label>
+                <div class="centered" style="display:none">
+                    <textarea name="logifail" id="finalEDI"></textarea>
+                </div>
+
+                <label for="log_cabrillo" style="display:none">Cabrillo</label>
+                <div class="centered">
+                    <textarea name="log_cabrillo" id="log_cabrillo"></textarea>
+                </div>
+                <div class="centered">
+                    <a href="#" id="downloadCabrillo" class="button">Lae alla logi.txt</a>
+                </div>
+            </div>
+            <div class="container tab" id="help">
+
+                <h2>Logi sisestus</h2>
+                <p>
+                    <u>Kõik väljad on vajalikud!</u>
+                    Logi sisestamisel täidetakse tühi aja väli automaatselt UTC ajaga. Sama kehtib välja
+                    valides tab või enter klahvi vajutades. RST väljadele sisestatakse vaikeväärtus 59 kui väljad on
+                    täitamata tab või enter klahvi vajutades.
+                </p>
+                <p>
+                    Sisestatud logiread kuvavad paremal pool rohelist ja punast nuppu.
+                    <b>Roheline</b> nupp on logikirje muutmiseks, <b>punane</b> nupp on logikirje kustutamiseks.
+                </p>
+                <p>
+                    <b>Kutsungit</b> ja <b>Lokaatorit</b> <u>pole vaja</u> sisestada suurte tähtedega,
+                    seda tehakse automaatselt.
+                </p>
+                <h3>
+                    Režiimid:
+                </h3>
+                <table>
+                    <tr>
+                        <th>Kood</th>
+                        <th>Saatmine</th>
+                        <th>Vastuvõtmine</th>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>Teadmata</td>
+                        <td>Teadmata</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>SSB</td>
+                        <td>SSB</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>CW</td>
+                        <td>CW</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>SSB</td>
+                        <td>CW</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>CW</td>
+                        <td>SSB</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>AM</td>
+                        <td>AM</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>FM</td>
+                        <td>FM</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>RTTY</td>
+                        <td>RTTY</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>SSTV</td>
+                        <td>SSTV</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>ATV</td>
+                        <td>ATV</td>
+                    </tr>
+                </table>
+                <hr>
+                <h2>Seadistused</h2>
+                <p>
+                    Seadistusjaotuses on vajalik kõikide väljade täitmine v.a märkmed. Osad veebilehitsejad sisaldavad
+                    kuupäeva valiku võimalust. Kuupäeva valikuta kasutajatele kuvatakse sobiv kuupäeva formaat.
+                    <br><br>
+                    <b>Kutsungit</b> ja <b>Lokaatorit</b> <u>pole vaja</u> sisestada suurte tähtedega,
+                    seda tehakse automaatselt.
+                </p>
+            </div>
+            <div class="container tab" id="changelog">
+                <h2>v2024.05.31.001</h2>
+                <p>
+                    LL Välipäeva rakenduse esimene versioon.
+                </p>
+            </div>
         </div>
     </div>
 </div>
 
 <footer>
+    <div>
+        <div>
+            <label for="finnish_fonetics">Soome foneetika:</label>
+            <label class="switch">
+                <input type="checkbox" id="finnish_fonetics">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div>
+
+        </div>
+    </div>
     &copy; 2024 ES1BBQ | v2024.05.31.001
 </footer>
 
