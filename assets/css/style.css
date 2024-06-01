@@ -328,7 +328,7 @@ input:checked + .slider:before {
 
 #log_entry div, #log .logRow div {
     display: table-cell;
-    width: 14%;
+    width: 12%;
 }
 
 #log_entry input {
@@ -336,11 +336,11 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
-#log_entry div:first-child, #log_entry div:nth-child(9n), #log .logRow div:first-child {
-    width: 6%;
+#log_entry div:first-child, #log_entry div:nth-child(10n), #log .logRow div:first-child {
+    width: 5%;
 }
 
-#log_entry div:nth-child(8n), #log .logRow div:nth-child(8n) {
+#log_entry div:nth-child(9n), #log .logRow div:nth-child(9n) {
     width: 10%;
     text-align: left;
 }

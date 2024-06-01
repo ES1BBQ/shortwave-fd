@@ -28,15 +28,13 @@ export const refreshLogsTable = function () {
         else
             row.className = "logRow"
 
-        /* Add row numbers */
-        nr+=1;
-        let nrc = document.createElement('div');
-        nrc.innerHTML = nr;
-        row.appendChild(nrc);
-
-        for (let i = 0; i < j.length; i++) {
+        for (let i of [5,1,6,9,7,0,8,4]) {
             let cell = document.createElement('div');
-            cell.innerHTML = j[i];
+            if (i === 5 || i === 9) {
+                cell.innerHTML = leadingZeros(parseInt(j[i]),3)
+            } else {
+                cell.innerHTML = j[i];
+            }
             row.appendChild(cell);
         }
         let cell = document.createElement('div');
@@ -83,108 +81,117 @@ export const updatePage = function () {
     document.getElementById('my_coefficient_fonetic').innerHTML = loc;
 
     /** Update my next number value */
-    const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
-    let next_number = QSORecords.length+1;
-    document.getElementById('my_next_number').innerHTML = leadingZeros(next_number,3);
+    document.getElementById('my_next_number').innerHTML = leadingZeros(next_tx_number(),3);
 
-    const listQSORecords = function (i) {
-        finalEDI = finalEDI.concat("\n" + localStorage['TDate'].substring(2).replace(/-/g, '') + ";" + i[0] + ";" + i[1] + ";" + i[3] + ";" + i[4] + ";;" + i[5] + ";;;" + i[2] + ";0;;N;N;");
-    };
-
-    let finalEDI = "[REG1TEST;1]\n";
-    finalEDI = finalEDI.concat("[Remarks]\n", (localStorage['remarks'] && localStorage['remarks'].length > 1) ? localStorage['remarks'] + "\n" : "");
-
-    finalEDI = finalEDI + "[QSORecords;" + QSORecords.length + "]";
-    QSORecords.forEach(x => listQSORecords(x));
-    document.getElementById('finalEDI').value = finalEDI;
+    /** Generate log in Cabrillo format */
     generate_log_cabrillo();
 };
-
-const leadingZeros = function (num,places) {
-    var zero = places - num.toString().length + 1;
-    return Array(+(zero > 0 && zero)).join("0") + num;
-}
 
 /** Method to mark missing input */
 const markInputs = function() {
     document.querySelectorAll('.missing').forEach(x => x.classList.remove('missing'));
-    if (0 < document.getElementById('log_time').value.length && document.getElementById('log_time').value.length < 4) document.getElementById('log_time').classList.add('missing');
-    if (document.getElementById('log_callsign').value.length === 0) document.getElementById('log_callsign').classList.add('missing');
-    if (document.getElementById('log_mode').value.length === 0) document.getElementById('log_mode').classList.add('missing');
-    if (document.getElementById('log_tx_rst').value.length === 0) document.getElementById('log_tx_rst').classList.add('missing');
-    if (document.getElementById('log_loc').value.length === 0) document.getElementById('log_loc').classList.add('missing');
-    if (document.getElementById('log_rx_rst').value.length === 0) document.getElementById('log_rx_rst').classList.add('missing');
+    if (0 < document.getElementById('qso_time').value.length && document.getElementById('qso_time').value.length < 4) document.getElementById('qso_time').classList.add('missing');
+    if (document.getElementById('qso_rx_callsign').value.length === 0) document.getElementById('qso_rx_callsign').classList.add('missing');
+    if (document.getElementById('qso_mode').value.length === 0) document.getElementById('qso_mode').classList.add('missing');
+    if (document.getElementById('qso_tx_rst').value.length === 0) document.getElementById('qso_tx_rst').classList.add('missing');
+    if (document.getElementById('qso_rx_coefficient').value.length === 0) document.getElementById('qso_rx_coefficient').classList.add('missing');
+    if (document.getElementById('qso_rx_number').value.length === 0) document.getElementById('qso_rx_number').classList.add('missing');
+    if (document.getElementById('qso_rx_rst').value.length === 0) document.getElementById('qso_rx_rst').classList.add('missing');
 }
 
 /** Method for adding log entries */
 const addLog = function () {
     const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
 
-    if (document.getElementById('log_time').value.length <= 0) {
+    if (document.getElementById('qso_time').value.length <= 0) {
         let ct = new Date();
-        document.getElementById('log_time').value = ct.toISOString().match(/\d\d:\d\d/).toString().replace(/[^0-9]/g, '');
+        document.getElementById('qso_time').value = ct.toTimeString().match(/\d\d:\d\d/).toString().replace(/[^0-9]/g, '');
     } else {
-        document.getElementById('log_time').value = document.getElementById('log_time').value.replace(/[^0-9]/g, '').substring(0,4);
+        document.getElementById('qso_time').value = document.getElementById('qso_time').value.replace(/[^0-9]/g, '').substring(0,4);
     }
 
     markInputs();
 
     if (
-        document.getElementById('log_time').value.length === 4 &&
-        document.getElementById('log_callsign').value.length > 0 &&
-        document.getElementById('log_mode').value.length > 0 &&
-        document.getElementById('log_tx_rst').value.length > 0 &&
-        document.getElementById('log_loc').value.length > 0 &&
-        document.getElementById('log_rx_rst').value.length > 0
+        document.getElementById('qso_time').value.length === 4 &&
+        document.getElementById('qso_rx_callsign').value.length > 0 &&
+        document.getElementById('qso_mode').value.length > 0 &&
+        document.getElementById('qso_tx_rst').value.length > 0 &&
+        document.getElementById('qso_rx_coefficient').value.length > 0 &&
+        document.getElementById('qso_rx_number').value.length > 0 &&
+        document.getElementById('qso_rx_rst').value.length > 0
     ) {
-        if (document.getElementById('log_edit').value != 0) {
-            let e = document.getElementById('log_edit').value;
+        if (document.getElementById('qso_edit').value != 0) {
+            let e = document.getElementById('qso_edit').value;
             QSORecords[e-1] = [
-                document.getElementById('log_time').value.replace(/[^0-9]/g, ''),
-                document.getElementById('log_callsign').value.toUpperCase(),
-                document.getElementById('log_loc').value.toUpperCase(),
-                document.getElementById('log_mode').value,
-                document.getElementById('log_tx_rst').value,
-                document.getElementById('log_rx_rst').value
+                document.getElementById('qso_mode').value,
+                document.getElementById('qso_time').value.replace(/[^0-9]/g, ''),
+                document.getElementById('PCall').value.toUpperCase(),
+                document.getElementById('Coefficient').value.toUpperCase(),
+                document.getElementById('qso_rx_rst').value,
+                leadingZeros(document.getElementById('qso_tx_number').value,3),
+                document.getElementById('qso_rx_callsign').value.toUpperCase(),
+                document.getElementById('qso_rx_coefficient').value.toUpperCase(),
+                document.getElementById('qso_tx_rst').value,
+                document.getElementById('qso_rx_number').value.toUpperCase()
             ];
         } else {
             QSORecords.push([
-                document.getElementById('log_time').value.replace(/[^0-9]/g, ''),
-                document.getElementById('log_callsign').value.toUpperCase(),
-                document.getElementById('log_loc').value.toUpperCase(),
-                document.getElementById('log_mode').value,
-                document.getElementById('log_tx_rst').value,
-                document.getElementById('log_rx_rst').value
+                document.getElementById('qso_mode').value,
+                document.getElementById('qso_time').value.replace(/[^0-9]/g, ''),
+                document.getElementById('PCall').value.toUpperCase(),
+                document.getElementById('Coefficient').value.toUpperCase(),
+                document.getElementById('qso_rx_rst').value,
+                next_tx_number(),
+                document.getElementById('qso_rx_callsign').value.toUpperCase(),
+                document.getElementById('qso_rx_coefficient').value.toUpperCase(),
+                document.getElementById('qso_tx_rst').value,
+                document.getElementById('qso_rx_number').value.toUpperCase()
             ]);
+            localStorage['my_next_number'] = next_tx_number();
         }
         localStorage['QSORecords'] = JSON.stringify(QSORecords);
 
         /* Reset form values */
-        document.getElementById('log_edit').value = 0;
-        document.getElementById('log_time').value = '';
-        document.getElementById('log_callsign').value = '';
-        document.getElementById('log_loc').value = '';
-        document.getElementById('log_callsign').focus();
+        document.getElementById('qso_edit').value = 0;
+        document.getElementById('qso_tx_number').value = next_tx_number();
+        document.getElementById('qso_time').value = '';
+        document.getElementById('qso_rx_callsign').value = '';
+        document.getElementById('qso_rx_coefficient').value = '';
+        document.getElementById('qso_rx_number').value = '';
+        document.getElementById('qso_rx_callsign').focus();
     }
 
     refreshLogsTable();
     updatePage();
 }
 
+const next_tx_number = function () {
+    let i = (localStorage['my_next_number']) ? parseInt(localStorage['my_next_number']) : 1;
+    return i+1;
+}
+
+const leadingZeros = function (num,places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+}
+
 /** Method to edit a log entry */
 const editLog = function(e) {
     let d = e.target.parentNode.parentNode.children;
-    document.getElementById('log_edit').value = d[0].textContent;
-    document.getElementById('log_time').value = d[1].textContent;
-    document.getElementById('log_callsign').value = d[2].textContent;
-    document.getElementById('log_loc').value = d[3].textContent;
-    document.getElementById('log_tx_rst').value = d[5].textContent;
-    document.getElementById('log_rx_rst').value = d[6].textContent;
+    document.getElementById('qso_edit').value = d[0].textContent;
+    document.getElementById('qso_time').value = d[1].textContent;
+    document.getElementById('qso_rx_callsign').value = d[2].textContent;
+    document.getElementById('qso_rx_number').value = d[3].textContent;
+    document.getElementById('qso_rx_coefficient').value = d[4].textContent;
+    document.getElementById('qso_tx_rst').value = d[6].textContent;
+    document.getElementById('qso_rx_rst').value = d[7].textContent;
+    document.getElementById('qso_tx_number').value = d[0].textContent;
 
-    let s = document.getElementById('log_mode');
+    let s = document.getElementById('qso_mode');
     let opts = s.options;
     for (let opt, j = 0; opt = opts[j]; j++) {
-        if (opt.value === d[4].textContent) {
+        if (opt.value === d[5].textContent) {
             s.selectedIndex = j;
             break;
         }
@@ -205,6 +212,7 @@ const clearLog = function (e) {
 const clearLogs = function () {
     let r = confirm("Do you really want to clear the log?");
     if (r === true) {
+        localStorage['my_next_number'] = 0;
         localStorage['QSORecords'] = JSON.stringify([]);
         refreshLogsTable();
         updatePage();
@@ -212,62 +220,70 @@ const clearLogs = function () {
 }
 
 /** Log input enter magic */
-document.getElementById('log_time').addEventListener("keydown", function (event) {
+document.getElementById('qso_time').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter')||(event.key === 'Tab')) {
         event.preventDefault();
         if (this.value.length > 0) {
             this.classList.remove('missing');
         } else {
             let ct = new Date();
-            document.getElementById('log_time').value = ct.toISOString().match(/\d\d:\d\d/).toString().replace(/:/g, '').replace(/\./g, '');
+            document.getElementById('qso_time').value = ct.toTimeString().match(/\d\d:\d\d/).toString().replace(/:/g, '').replace(/\./g, '');
         }
-        document.getElementById("log_callsign").focus();
+        document.getElementById("qso_rx_callsign").focus();
     }
 });
 
-document.getElementById('log_callsign').addEventListener("keydown", function (event) {
+document.getElementById('qso_rx_callsign').addEventListener("keydown", function (event) {
     if (this.value.length > 0) this.classList.remove('missing');
     if (event.key === 'Enter') {
         event.preventDefault();
-        if (this.value.length > 0) document.getElementById("log_loc").focus();
+        if (this.value.length > 0) document.getElementById("qso_rx_number").focus();
     }
 });
 
-document.getElementById('log_loc').addEventListener("keydown", function (event) {
+document.getElementById('qso_rx_number').addEventListener("keydown", function (event) {
     if (this.value.length > 0) this.classList.remove('missing');
     if (event.key === 'Enter') {
         event.preventDefault();
-        if (this.value.length > 0) document.getElementById("log_mode").focus();
+        if (this.value.length > 0) document.getElementById("qso_rx_coefficient").focus();
     }
 });
 
-document.getElementById('log_mode').addEventListener("keydown", function (event) {
+document.getElementById('qso_rx_coefficient').addEventListener("keydown", function (event) {
     if (this.value.length > 0) this.classList.remove('missing');
     if (event.key === 'Enter') {
         event.preventDefault();
-        if (this.value.length > 0) document.getElementById("log_tx_rst").focus();
+        if (this.value.length > 0) document.getElementById("qso_mode").focus();
     }
 });
 
-document.getElementById('log_tx_rst').addEventListener("keydown", function (event) {
+document.getElementById('qso_mode').addEventListener("keydown", function (event) {
+    if (this.value.length > 0) this.classList.remove('missing');
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        if (this.value.length > 0) document.getElementById("qso_tx_rst").focus();
+    }
+});
+
+document.getElementById('qso_tx_rst').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter')||(event.key === 'Tab')) {
         event.preventDefault();
         if (this.value.length === 0) {
-            this.value = '59';
+            this.value = '599';
             this.classList.remove('missing');
         }
-        document.getElementById("log_rx_rst").focus();
+        document.getElementById("qso_rx_rst").focus();
     }
 });
 
-document.getElementById('log_rx_rst').addEventListener("keydown", function (event) {
+document.getElementById('qso_rx_rst').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter')||(event.key === 'Tab')) {
         event.preventDefault();
-        if (this.value.length === 0) this.value = '59';
+        if (this.value.length === 0) this.value = '599';
         addLog();
     }
 });
 
 /** Add and Clear Logs */
 document.getElementById('log_reset').addEventListener('click', clearLogs);
-document.getElementById('log_write').addEventListener('click', addLog);
+document.getElementById('qso_write').addEventListener('click', addLog);

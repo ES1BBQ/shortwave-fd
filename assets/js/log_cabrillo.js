@@ -8,12 +8,34 @@ export const generate_log_cabrillo = function() {
     log = log.concat("EMAIL: ", (localStorage['Email']) ? localStorage['Email'].toLowerCase() : '', "\n");
     log = log.concat("CREATED-BY: BBQLog-SWFD - https://es1bbq.github.io/shortwave-fd/", "\n");
 
-    /**
-     QSO: 7005 CW 2009-05-30 0002 AA1ZZZ 599 1 S50A 599 4
-     QSO: 7006 CW 2009-05-30 0015 AA1ZZZ 599 2 EF8M 599 34
-     */
+    const listQSORecords = function (i) {
+        log = log + 'QSO:';
+        log = log + spaces(' 3500', 5, true);                                                   // Frequency
+        log = log + spaces(' '+i[0], 2);                                                             // Mode
+        log = log + spaces(' ' + localStorage['TDate'],10);                                          // Date
+        log = log + spaces(' ' + i[1],4);                                                            // Time
+        log = log + spaces(' ' + i[2],10);                                                           // Sent Callsign
+        log = log + spaces(' ' + i[3],3);                                                            // Sent Coefficient
+        log = log + spaces(' ' + i[4],3);                                                            // Sent RST
+        log = log + spaces(' ' + i[5],6);                                                            // Sent number
+        log = log + spaces(' ' + i[6],10);                                                           // Received Callsign
+        log = log + spaces(' ' + i[7],3);                                                            // Received Coefficient
+        log = log + spaces(' ' + i[8],3);                                                            // Received RST
+        log = log + spaces(' ' + i[9],6);                                                            // Received number
+        log = log + "\n";
+    };
+
+    const QSORecords = JSON.parse(localStorage['QSORecords'] || "[]");
+    QSORecords.forEach(x => listQSORecords(x));
 
     log = log.concat("END-OF-LOG:", "\n");
-
     document.getElementById('log_cabrillo').value = log;
-};
+}
+
+const spaces = function (value,places, right=false) {
+    var spaces = places - value.toString().length + 1;
+    if (right)
+        return Array(+(spaces > 0 && spaces)).join(" ") + value;
+    else
+        return value + Array(+(spaces > 0 && spaces)).join(" ");
+}

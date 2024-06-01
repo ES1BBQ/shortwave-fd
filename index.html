@@ -112,35 +112,32 @@
                 <hr>
                 <div class="centered" id="log_entry">
                     <div><label>Jrk.</label></div>
-                    <div><label for="log_time">Aeg</label></div>
-                    <div><label for="log_callsign">Kutsung</label></div>
-                    <div><label for="log_loc">QTH</label></div>
-                    <div><label for="log_mode">Režiim</label></div>
-                    <div><label for="log_tx_rst">Saadetud</label></div>
-                    <div><label for="log_rx_rst">Saadud</label></div>
+                    <div><label for="qso_time">Aeg</label></div>
+                    <div><label for="qso_rx_callsign">Kutsung</label></div>
+                    <div><label for="qso_rx_number">Number</label></div>
+                    <div><label for="qso_rx_coefficient">Kordaja</label></div>
+                    <div><label for="qso_mode">Režiim</label></div>
+                    <div><label for="qso_tx_rst">Saadetud</label></div>
+                    <div><label for="qso_rx_rst">Saadud</label></div>
                     <div></div>
-                    <div><input id="log_edit" type="hidden" value="0"></div>
-                    <div><input class="short" id="log_time" type="text"></div>
-                    <div><input autofocus class="short" id="log_callsign" maxlength="10"
-                                style="text-transform:uppercase" type="text"></div>
-                    <div><input class="short" id="log_loc" maxlength="6" style="text-transform:uppercase" type="text">
+                    <div>
+                        <input id="qso_edit" type="hidden" value="0">
+                        <input id="qso_tx_number" type="hidden">
+                    </div>
+                    <div><input class="short" id="qso_time" type="text"></div>
+                    <div><input autofocus class="short" id="qso_rx_callsign" maxlength="10" style="text-transform:uppercase" type="text"></div>
+                    <div><input class="short" id="qso_rx_number" maxlength="3" style="text-transform:uppercase" type="text"></div>
+                    <div><input class="short" id="qso_rx_coefficient" maxlength="2" style="text-transform:uppercase" type="text">
                     </div>
                     <div>
-                        <select id="log_mode" class="short">
-                            <option value="0">Teadmata</option>
-                            <option value="1">SSB</option>
-                            <option value="2">CW</option>
-                            <option value="5">AM</option>
-                            <option value="6" selected>FM</option>
-                            <option value="7">RTTY</option>
-                            <option value="8">SSTV</option>
+                        <select id="qso_mode" class="short">
+                            <option value="PH">SSB</option>
+                            <option value="CW">CW</option>
                         </select></div>
-                    <div><input class="short" id="log_tx_rst" maxlength="3" placeholder="59" type="text" value="59">
-                    </div>
-                    <div><input class="short" id="log_rx_rst" maxlength="3" placeholder="59" type="text" value="59">
-                    </div>
+                    <div><input class="short" id="qso_tx_rst" maxlength="3" placeholder="599" type="text" value="599"></div>
+                    <div><input class="short" id="qso_rx_rst" maxlength="3" placeholder="599" type="text" value="599"></div>
                     <div>
-                        <button class="short" id="log_write">&raquo;</button>
+                        <button class="short" id="qso_write">&raquo;</button>
                     </div>
                 </div>
                 <hr>
