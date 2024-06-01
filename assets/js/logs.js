@@ -10,23 +10,40 @@ export const refreshLogsTable = function () {
 
     const genQSORecords = function (j) {
         let row = document.createElement('div');
+        row.className = "logRow"
 
         /* check for duplicates */
-        _qsos.push(j[1]);
-        let _c = {}, i, value;
-        for (i = 0; i < _qsos.length; i++) {
-            value = _qsos[i];
-            if (typeof _c[value] === "undefined") {
-                _c[value] = 1;
-            } else {
-                _c[value]++;
+        _qsos.push([j[6],j[1],j[0]]);
+        for (let i = 0; i < _qsos.length-1; i++) {
+            if (_qsos[i][0] === j[6]) {
+                if (_qsos[i][1] === j[1]) {
+                    if (_qsos[i][2] === j[0])
+                        row.className = "logRow logRowDuplicate";
+                } else {
+                    let a_q = Math.floor(j[1]/100);
+                    let b_q = Math.floor(_qsos[i][1] / 100);
+                    let a_m = j[1] % 100;
+                    let b_m = _qsos[i][1] % 100;
+                    if (a_q === b_q) {
+                        if (a_m >= 30 && b_m >=30) {
+                            if (_qsos[i][2] === j[0])
+                                row.className = "logRow logRowDuplicate";
+                        }
+                        else if (a_m < 30 && b_m < 30) {
+                            if (_qsos[i][2] === j[0])
+                                row.className = "logRow logRowDuplicate";
+                        }
+                    }
+                }
             }
         }
 
-        if(_c[j[1]]>1)
-            row.className = "logRow logRowDuplicate"
-        else
-            row.className = "logRow"
+        /* Add row numbers */
+        nr+=1;
+        let nrc = document.createElement('div');
+        nrc.style = 'display:none';
+        nrc.innerHTML = nr;
+        row.appendChild(nrc);
 
         for (let i of [5,1,6,9,7,0,8,4]) {
             let cell = document.createElement('div');
@@ -133,7 +150,7 @@ const addLog = function () {
                 document.getElementById('qso_rx_callsign').value.toUpperCase(),
                 document.getElementById('qso_rx_coefficient').value.toUpperCase(),
                 document.getElementById('qso_tx_rst').value,
-                document.getElementById('qso_rx_number').value.toUpperCase()
+                leadingZeros(document.getElementById('qso_rx_number').value,3)
             ];
         } else {
             QSORecords.push([
@@ -142,11 +159,11 @@ const addLog = function () {
                 document.getElementById('PCall').value.toUpperCase(),
                 document.getElementById('Coefficient').value.toUpperCase(),
                 document.getElementById('qso_rx_rst').value,
-                next_tx_number(),
+                leadingZeros(next_tx_number(),3),
                 document.getElementById('qso_rx_callsign').value.toUpperCase(),
                 document.getElementById('qso_rx_coefficient').value.toUpperCase(),
                 document.getElementById('qso_tx_rst').value,
-                document.getElementById('qso_rx_number').value.toUpperCase()
+                leadingZeros(document.getElementById('qso_rx_number').value,3)
             ]);
             localStorage['my_next_number'] = next_tx_number();
         }
@@ -180,18 +197,18 @@ const leadingZeros = function (num,places) {
 const editLog = function(e) {
     let d = e.target.parentNode.parentNode.children;
     document.getElementById('qso_edit').value = d[0].textContent;
-    document.getElementById('qso_time').value = d[1].textContent;
-    document.getElementById('qso_rx_callsign').value = d[2].textContent;
-    document.getElementById('qso_rx_number').value = d[3].textContent;
-    document.getElementById('qso_rx_coefficient').value = d[4].textContent;
-    document.getElementById('qso_tx_rst').value = d[6].textContent;
-    document.getElementById('qso_rx_rst').value = d[7].textContent;
-    document.getElementById('qso_tx_number').value = d[0].textContent;
+    document.getElementById('qso_tx_number').value = d[1].textContent;
+    document.getElementById('qso_time').value = d[2].textContent;
+    document.getElementById('qso_rx_callsign').value = d[3].textContent;
+    document.getElementById('qso_rx_number').value = d[4].textContent;
+    document.getElementById('qso_rx_coefficient').value = d[5].textContent;
+    document.getElementById('qso_tx_rst').value = d[7].textContent;
+    document.getElementById('qso_rx_rst').value = d[8].textContent;
 
     let s = document.getElementById('qso_mode');
     let opts = s.options;
     for (let opt, j = 0; opt = opts[j]; j++) {
-        if (opt.value === d[5].textContent) {
+        if (opt.value === d[6].textContent) {
             s.selectedIndex = j;
             break;
         }
