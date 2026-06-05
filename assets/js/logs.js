@@ -122,7 +122,8 @@ const addLog = function () {
 
     if (document.getElementById('qso_time').value.length <= 0) {
         let ct = new Date();
-        document.getElementById('qso_time').value = ct.toTimeString().match(/\d\d:\d\d/).toString().replace(/[^0-9]/g, '');
+        let time = ct.toUTCString().getHours().toString() + leadingZeros(ct.getMinutes(),2);
+        document.getElementById('qso_time').value = time;
     } else {
         document.getElementById('qso_time').value = document.getElementById('qso_time').value.replace(/[^0-9]/g, '').substring(0,4);
     }
@@ -244,7 +245,8 @@ document.getElementById('qso_time').addEventListener("keydown", function (event)
             this.classList.remove('missing');
         } else {
             let ct = new Date();
-            document.getElementById('qso_time').value = ct.toTimeString().match(/\d\d:\d\d/).toString().replace(/:/g, '').replace(/\./g, '');
+            let time = ct.toUTCString().getHours().toString() + leadingZeros(ct.getMinutes(),2);
+            document.getElementById('qso_time').value = time;
         }
         document.getElementById("qso_rx_callsign").focus();
     }
