@@ -122,7 +122,9 @@ const addLog = function () {
 
     if (document.getElementById('qso_time').value.length <= 0) {
         let ct = new Date();
-        let time = ct.toUTCString().getHours().toString() + leadingZeros(ct.getMinutes(),2);
+        let hours = pad(ct.getUTCHours().toString(),2);
+        let minutes = pad(ct.getMinutes().toString(),2);
+        let time = hours + minutes;
         document.getElementById('qso_time').value = time;
     } else {
         document.getElementById('qso_time').value = document.getElementById('qso_time').value.replace(/[^0-9]/g, '').substring(0,4);
@@ -237,6 +239,12 @@ const clearLogs = function () {
     }
 }
 
+const pad = function(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
 /** Log input enter magic */
 document.getElementById('qso_time').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter')||(event.key === 'Tab')) {
@@ -245,7 +253,9 @@ document.getElementById('qso_time').addEventListener("keydown", function (event)
             this.classList.remove('missing');
         } else {
             let ct = new Date();
-            let time = ct.toUTCString().getHours().toString() + leadingZeros(ct.getMinutes(),2);
+            let hours = pad(ct.getUTCHours().toString(),2);
+            let minutes = pad(ct.getMinutes().toString(),2);
+            let time = hours + minutes;
             document.getElementById('qso_time').value = time;
         }
         document.getElementById("qso_rx_callsign").focus();
