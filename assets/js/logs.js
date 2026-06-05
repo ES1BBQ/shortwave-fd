@@ -247,7 +247,7 @@ const pad = function(num, size) {
 
 /** Log input enter magic */
 document.getElementById('qso_time').addEventListener("keydown", function (event) {
-    if ((event.key === 'Enter')||(event.key === 'Tab')) {
+    if ((event.key === 'Enter') || (event.key === 'Tab' && !event.shiftKey)) {
         event.preventDefault();
         if (this.value.length > 0) {
             this.classList.remove('missing');
@@ -295,7 +295,7 @@ document.getElementById('qso_mode').addEventListener("keydown", function (event)
 });
 
 document.getElementById('qso_tx_rst').addEventListener("keydown", function (event) {
-    if ((event.key === 'Enter')||(event.key === 'Tab')) {
+    if ((event.key === 'Enter') || (event.key === 'Tab' && !event.shiftKey)) {
         event.preventDefault();
         if (this.value.length === 0) {
             this.value = '599';
@@ -306,7 +306,7 @@ document.getElementById('qso_tx_rst').addEventListener("keydown", function (even
 });
 
 document.getElementById('qso_rx_rst').addEventListener("keydown", function (event) {
-    if ((event.key === 'Enter')||(event.key === 'Tab')) {
+    if ((event.key === 'Enter') || (event.key === 'Tab' && !event.shiftKey)) {
         event.preventDefault();
         if (this.value.length === 0) this.value = '599';
         addLog();
