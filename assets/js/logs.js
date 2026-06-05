@@ -216,6 +216,9 @@ const editLog = function(e) {
             break;
         }
     }
+    s.dispatchEvent(new Event('change'));
+    document.getElementById('qso_tx_rst').value = d[7].textContent;
+    document.getElementById('qso_rx_rst').value = d[8].textContent;
 }
 
 /** Method to clear a log entry */
@@ -294,11 +297,22 @@ document.getElementById('qso_mode').addEventListener("keydown", function (event)
     }
 });
 
+document.getElementById('qso_mode').addEventListener("change", function () {
+    const rst = this.value === 'CW' ? '599' : '59';
+    const maxlen = this.value === 'CW' ? 3 : 2;
+    ['qso_tx_rst', 'qso_rx_rst'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el.value === el.placeholder || el.value.length > maxlen) el.value = rst;
+        el.placeholder = rst;
+        el.maxLength = maxlen;
+    });
+});
+
 document.getElementById('qso_tx_rst').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter') || (event.key === 'Tab' && !event.shiftKey)) {
         event.preventDefault();
         if (this.value.length === 0) {
-            this.value = '599';
+            this.value = this.placeholder;
             this.classList.remove('missing');
         }
         document.getElementById("qso_rx_rst").focus();
@@ -308,9 +322,19 @@ document.getElementById('qso_tx_rst').addEventListener("keydown", function (even
 document.getElementById('qso_rx_rst').addEventListener("keydown", function (event) {
     if ((event.key === 'Enter') || (event.key === 'Tab' && !event.shiftKey)) {
         event.preventDefault();
-        if (this.value.length === 0) this.value = '599';
+        if (this.value.length === 0) this.value = this.placeholder;
         addLog();
     }
+});
+
+const logInputIds = new Set(['qso_time','qso_rx_callsign','qso_rx_number','qso_rx_coefficient','qso_tx_rst','qso_rx_rst']);
+document.getElementById('log_entry').addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+    if (!logInputIds.has(event.target.id)) return;
+    event.preventDefault();
+    const s = document.getElementById('qso_mode');
+    s.selectedIndex = s.selectedIndex === 0 ? 1 : 0;
+    s.dispatchEvent(new Event('change'));
 });
 
 /** Add and Clear Logs */
